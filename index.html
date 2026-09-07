@@ -1,454 +1,140 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>دفتر کهاته سلطان</title>
-<script src="https://js.puter.com/v2/"></script>
-<style>
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, sans-serif; }
-body { background: #ede7df; padding: 15px; direction: rtl; }
-.header { background: #8B0000; color: #fff; padding: 15px; text-align: center; border-radius: 10px; font-size: 22px; font-weight: bold; }
-.sub { font-size: 12px; color: #ffd700; }
-.search { width: 100%; padding: 10px; margin: 10px 0; border-radius: 8px; border: 1px solid #b8a898; font-size: 14px; }
-.summary { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 10px 0; }
-.card { background: #fff; padding: 10px; border-radius: 8px; text-align: center; border: 1px solid #b8a898; }
-.card .num { font-size: 18px; font-weight: bold; }
-.green .num { color: #15803d; }
-.blue .num { color: #1a56db; }
-.red .num { color: #b91c1c; }
-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; }
-th, td { border: 1px solid #b8a898; padding: 8px; text-align: center; font-size: 13px; }
-th { background: #dcd0c0; }
-.fab { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 56px; height: 56px; background: #8B0000; color: #fff; border: none; border-radius: 50%; font-size: 30px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-.btn-ai { background: #1a56db; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; margin: 5px 0; }
-.chatbox { display: none; position: fixed; bottom: 90px; left: 10px; right: 10px; background: #fff; border: 2px solid #8B0000; border-radius: 12px; max-height: 60vh; flex-direction: column; z-index: 999; }
-.chatbox.active { display: flex; }
-.chat-header { background: #8B0000; color: #fff; padding: 8px 12px; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; }
-.chat-messages { flex: 1; padding: 8px; overflow-y: auto; max-height: 40vh; background: #f9f6f0; }
-.msg { background: #fff; padding: 6px 10px; border-radius: 8px; margin-bottom: 4px; border: 1px solid #ddd; }
-.msg.user { background: #dbeafe; border-color: #1a56db; }
-.msg.ai { background: #dcfce7; border-color: #15803d; }
-.chat-input { display: flex; gap: 5px; padding: 6px; border-top: 1px solid #ddd; background: #fff; border-radius: 0 0 10px 10px; }
-.chat-input input { flex: 1; padding: 8px; border: 1px solid #b8a898; border-radius: 6px; }
-.chat-input button { background: #8B0000; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; }
-.toast { display: none; position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 8px 16px; border-radius: 6px; z-index: 9999; font-size: 12px; }
-.toast.show { display: block; }
-.toast.error { background: #b91c1c; }
-.toast.success { background: #15803d; }
-.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center; padding: 12px; }
-.modal-bg.active { display: flex; }
-.modal { background: #fff; width: 100%; max-width: 400px; border-radius: 12px; padding: 16px; max-height: 90vh; overflow: auto; }
-.modal input, .modal select { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #b8a898; border-radius: 6px; }
-.modal .btn-group { display: flex; gap: 8px; margin-top: 12px; }
-.modal .btn-group button { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.btn-cancel { background: #e5e7eb; color: #333; }
-.btn-confirm { background: #8B0000; color: #fff; }
-.btn-confirm.green { background: #15803d; }
-.btn-confirm.blue { background: #1a56db; }
-.btn-confirm.red { background: #b91c1c; }
-.detail { display: none; position: fixed; inset: 0; background: #ede7df; z-index: 200; overflow: auto; padding: 15px; }
-.detail.active { display: block; }
-.detail-header { background: #8B0000; color: #fff; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-.detail-header button { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
-.tx-card { background: #fff; padding: 10px; border-radius: 8px; margin: 5px 0; border: 1px solid #b8a898; display: flex; justify-content: space-between; }
-.tx-amount.received { color: #15803d; font-weight: bold; }
-.tx-amount.paid { color: #1a56db; font-weight: bold; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفتر کهاته سلطان</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Tahoma, Arial, sans-serif; }
+        body { background-color: #f4f6f8; padding: 15px; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #8B0000; margin-bottom: 15px; }
+        .form-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        input, select, button { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        button { background-color: #28a745; color: white; border: none; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        button:hover { background-color: #218838; }
+        .summary { display: flex; justify-content: space-between; margin: 20px 0; gap: 10px; }
+        .card { flex: 1; padding: 10px; border-radius: 6px; text-align: center; color: white; }
+        .card.green { background-color: #28a745; }
+        .card.red { background-color: #dc3545; }
+        .card.blue { background-color: #007bff; }
+        .card span { display: block; font-size: 18px; font-weight: bold; margin-top: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #8B0000; color: white; }
+        .btn-del { background-color: #dc3545; padding: 4px 8px; font-size: 12px; width: auto; }
+    </style>
 </head>
 <body>
 
-<div class="header">
-    دفتر کهاته سلطان
-    <div class="sub">مدیریت حساب‌ها + دستیار هوشمند</div>
-</div>
+<div class="container">
+    <h2>دفتر کهاته سلطان</h2>
+    
+    <div class="form-group">
+        <label>نام شخص / حساب:</label>
+        <input type="text" id="name" placeholder="مثلاً: احمد">
+    </div>
+    
+    <div class="form-group">
+        <label>نوع معامله:</label>
+        <select id="type">
+            <option value="رسید">رسید (دریافت شد)</option>
+            <option value="برد">برد (قرض داده شد)</option>
+        </select>
+    </div>
 
-<input class="search" id="search" placeholder="جستجو..." oninput="render()">
-<div class="summary" id="summary"></div>
-<div style="overflow-x:auto;">
+    <div class="form-group">
+        <label>مبلغ:</label>
+        <input type="number" id="amount" placeholder="مبلغ را وارد کنید">
+    </div>
+
+    <div class="form-group">
+        <label>شرح / توضیحات:</label>
+        <input type="text" id="desc" placeholder="توضیحات اختیاری">
+    </div>
+
+    <button onclick="addTransaction()">ثبت معامله</button>
+
+    <div class="summary">
+        <div class="card green">کل رسید<span id="totalRec">0</span></div>
+        <div class="card red">کل برد<span id="totalGiven">0</span></div>
+        <div class="card blue">باقی‌مانده<span id="balance">0</span></div>
+    </div>
+
+    <h3>لیست تراکنش‌ها</h3>
     <table>
-        <thead><tr><th>#</th><th>اسم</th><th>تلفن</th><th>رسید</th><th>قرض</th><th>باقی</th></tr></thead>
-        <tbody id="rows"></tbody>
+        <thead>
+            <tr>
+                <th>نام</th>
+                <th>نوع</th>
+                <th>مبلغ</th>
+                <th>شرح</th>
+                <th>حذف</th>
+            </tr>
+        </thead>
+        <tbody id="list"></tbody>
     </table>
 </div>
 
-<button class="btn-ai" onclick="toggleChat()">🤖 هوش مصنوعی</button>
-<button class="fab" onclick="addDebtor()">+</button>
-
-<div class="detail" id="detail">
-    <div class="detail-header">
-        <button onclick="closeDetail()">‹</button>
-        <span id="detailTitle">صورت حساب</span>
-        <button onclick="editInfo()">✎</button>
-    </div>
-    <div id="detailBody"></div>
-</div>
-
-<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
-    <div class="modal" id="modal"></div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<div class="chatbox" id="chatbox">
-    <div class="chat-header">
-        <span>🤖 دستیار هوشمند</span>
-        <button onclick="closeChat()" style="background:none;border:none;color:#fff;font-size:20px;">✕</button>
-    </div>
-    <div class="chat-messages" id="chatMessages">
-        <div class="msg ai">👋 سلام! هر چیزی بگویید، انجام می‌دهم.</div>
-        <div class="msg ai">💡 مثال: «سید نبی الله ۱۳۰۰ رسید»</div>
-        <div class="msg ai">📖 دستورات: /help - /list - /stats - /backup - /clear</div>
-    </div>
-    <div class="chat-input">
-        <input id="chatInput" placeholder="دستور یا سوال..." onkeydown="if(event.key==='Enter')sendMessage()">
-        <button onclick="sendMessage()">➤</button>
-    </div>
-</div>
-
 <script>
-// ============================================================
-// بخش ۱: داده‌ها و توابع پایه
-// ============================================================
-let debtors = [], current = null;
+    let transactions = JSON.parse(localStorage.getItem('khatasultan_data')) || [];
 
-function $(id) { return document.getElementById(id); }
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function num(n) { return (Number(n)||0).toLocaleString(); }
-function normalizeDigits(v) { return String(v||'').replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)); }
+    function updateUI() {
+        const list = document.getElementById('list');
+        list.innerHTML = '';
+        
+        let totalRec = 0;
+        let totalGiven = 0;
 
-function today() {
-    try {
-        const d = new Date();
-        const f = new Intl.DateTimeFormat('fa-IR-u-ca-persian', {year:'numeric', month:'2-digit', day:'2-digit'});
-        const p = f.formatToParts(d);
-        let y='',m='',day='';
-        for (let x of p) {
-            if (x.type==='year') y=x.value;
-            if (x.type==='month') m=x.value;
-            if (x.type==='day') day=x.value;
-        }
-        const toEn = s => s.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
-        return toEn(y)+'/'+toEn(m).padStart(2,'0')+'/'+toEn(day).padStart(2,'0');
-    } catch(e) {
-        const d = new Date();
-        return d.getFullYear()+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+String(d.getDate()).padStart(2,'0');
-    }
-}
+        transactions.forEach((item, index) => {
+            if(item.type === 'رسید') totalRec += Number(item.amount);
+            if(item.type === 'برد') totalGiven += Number(item.amount);
 
-function getTotals(d) {
-    let r=0, de=0;
-    if (d.transactions) {
-        for (let t of d.transactions) {
-            if (t.currency !== 'USD') {
-                r += +t.receipt || 0;
-                de += +t.debtVal || 0;
-            }
-        }
-    }
-    return { receipt: r, debt: de, remaining: r - de };
-}
-
-function save() {
-    try { localStorage.setItem('khatabook', JSON.stringify(debtors)); } catch(e) {}
-}
-function load() {
-    try {
-        const x = localStorage.getItem('khatabook');
-        if (x) debtors = JSON.parse(x);
-        else debtors = [];
-    } catch(e) { debtors = []; }
-}
-
-function toast(msg, type='') {
-    const el = $('toast');
-    el.textContent = msg;
-    el.className = 'toast show' + (type ? ' '+type : '');
-    clearTimeout(el._t);
-    el._t = setTimeout(() => el.className = 'toast', 2500);
-}
-
-function modal(html) {
-    $('modal').innerHTML = html;
-    $('modalBg').classList.add('active');
-}
-function closeModal() { $('modalBg').classList.remove('active'); }
-
-// ============================================================
-// بخش ۲: رندر جدول و جستجو
-// ============================================================
-function render() {
-    const q = normalizeDigits($('search').value).trim().toLowerCase();
-    let list = debtors;
-    if (q) {
-        list = debtors.filter(d => 
-            normalizeDigits(d.name).includes(q) || 
-            normalizeDigits(d.phone||'').includes(q)
-        );
-    }
-    let totalR=0, totalD=0;
-    for (let d of debtors) {
-        const t = getTotals(d);
-        totalR += t.receipt;
-        totalD += t.debt;
-    }
-    $('summary').innerHTML = `
-        <div class="card green"><div>مجموع رسید</div><div class="num">${num(totalR)} AFN</div></div>
-        <div class="card blue"><div>مجموع قرض</div><div class="num">${num(totalD)} AFN</div></div>
-        <div class="card red"><div>باقی مانده</div><div class="num">${num(totalR-totalD)} AFN</div></div>
-    `;
-    if (!list.length) {
-        $('rows').innerHTML = '<tr><td colspan="6">حسابی پیدا نشد</td></tr>';
-        return;
-    }
-    let html = '';
-    for (let i=0; i<list.length; i++) {
-        const d = list[i];
-        const t = getTotals(d);
-        const idx = debtors.indexOf(d) + 1;
-        html += `<tr onclick="openDetail('${d.id}')" style="cursor:pointer;">
-            <td>${idx}</td>
-            <td style="font-weight:bold;">${esc(d.name)}</td>
-            <td>${esc(d.phone||'-')}</td>
-            <td style="color:#15803d;font-weight:bold;">${num(t.receipt)}</td>
-            <td style="color:#1a56db;font-weight:bold;">${num(t.debt)}</td>
-            <td style="color:#b91c1c;font-weight:bold;">${num(t.remaining)}</td>
-        </tr>`;
-    }
-    $('rows').innerHTML = html;
-}
-
-// ============================================================
-// بخش ۳: مدیریت حساب‌ها (افزودن، ویرایش، حذف)
-// ============================================================
-function addDebtor() {
-    const html = `
-        <h3>➕ حساب جدید</h3>
-        <label>نام *</label><input id="n" placeholder="نام" autofocus>
-        <label>تلفن</label><input id="p" placeholder="شماره تماس" dir="ltr">
-        <hr style="margin:10px 0;">
-        <label>نوع معامله اول</label>
-        <select id="txType"><option value="none">بدون معامله</option><option value="receipt">رسید</option><option value="debt">قرض</option></select>
-        <label>مبلغ</label><input id="amt" placeholder="مبلغ" dir="ltr">
-        <label>تاریخ</label><input id="txDate" value="${today()}" dir="ltr">
-        <label>شرح</label><input id="det" placeholder="شرح معامله">
-        <div class="btn-group">
-            <button class="btn-cancel" onclick="closeModal()">لغو</button>
-            <button class="btn-confirm" id="saveBtn">ثبت حساب</button>
-        </div>
-    `;
-    modal(html);
-    $('saveBtn').onclick = function() {
-        const name = $('n').value.trim();
-        if (!name) { toast('نام را وارد کنید', 'error'); return; }
-        if (debtors.some(d => d.name === name)) { toast('اسم تکراری است', 'error'); return; }
-        const newD = { id: Date.now(), name, phone: $('p').value.trim(), transactions: [] };
-        const type = $('txType').value;
-        if (type !== 'none') {
-            const amt = Number($('amt').value.replace(/,/g,''));
-            if (!amt || amt <= 0) { toast('مبلغ معتبر وارد کنید', 'error'); return; }
-            const isR = type === 'receipt';
-            newD.transactions.push({
-                id: Date.now()+1,
-                date: $('txDate').value.trim() || today(),
-                currency: 'AFN',
-                details: $('det').value.trim() || (isR ? 'رسید' : 'قرض'),
-                receipt: isR ? amt : 0,
-                debtVal: isR ? 0 : amt
-            });
-        }
-        debtors.push(newD);
-        save();
-        closeModal();
-        render();
-        toast('✅ حساب اضافه شد', 'success');
-    };
-    setTimeout(() => { const el = $('n'); if (el) el.focus(); }, 300);
-}
-
-function openDetail(id) {
-    current = id;
-    $('detail').classList.add('active');
-    renderDetail();
-}
-function closeDetail() {
-    $('detail').classList.remove('active');
-    current = null;
-    render();
-}
-function renderDetail() {
-    const d = debtors.find(x => x.id == current);
-    if (!d) return;
-    $('detailTitle').textContent = 'صورت حساب: ' + d.name;
-    const t = getTotals(d);
-    let html = `
-        <div style="background:#fff;padding:10px;border-radius:8px;margin:10px 0;border:1px solid #b8a898;">
-            <div><b>📞 تلفن:</b> ${esc(d.phone||'ثبت نشده')}</div>
-        </div>
-        <div class="summary">
-            <div class="card green"><div>رسید</div><div class="num">${num(t.receipt)}</div></div>
-            <div class="card blue"><div>قرض</div><div class="num">${num(t.debt)}</div></div>
-            <div class="card red"><div>باقی</div><div class="num">${num(t.remaining)}</div></div>
-        </div>
-        <div style="margin:10px 0;">
-    `;
-    if (!d.transactions || !d.transactions.length) {
-        html += '<div style="background:#fff;padding:10px;border-radius:8px;text-align:center;color:#888;">هیچ معامله‌ای ثبت نشده</div>';
-    } else {
-        for (let tx of d.transactions) {
-            const amt = tx.receipt || tx.debtVal;
-            const isR = tx.receipt > 0;
-            html += `<div class="tx-card">
-                <span>${esc(tx.details||'معامله')}</span>
-                <span class="tx-amount ${isR?'received':'paid'}">${num(amt)} AFN</span>
-                <span style="font-size:11px;color:#888;">${esc(tx.date)}</span>
-            </div>`;
-        }
-    }
-    html += `</div>
-        <div class="btn-group">
-            <button class="btn-confirm green" onclick="openTx(true)">+ رسید</button>
-            <button class="btn-confirm blue" onclick="openTx(false)">+ قرض</button>
-        </div>
-    `;
-    $('detailBody').innerHTML = html;
-}
-
-function openTx(isR) {
-    const title = isR ? 'ثبت رسید' : 'ثبت قرض';
-    const cls = isR ? 'green' : 'blue';
-    const html = `
-        <h3>${title}</h3>
-        <label>مبلغ</label><input id="amt" placeholder="مبلغ" dir="ltr" autofocus>
-        <label>تاریخ</label><input id="txDate" value="${today()}" dir="ltr">
-        <label>شرح</label><input id="det" placeholder="شرح معامله">
-        <div class="btn-group">
-            <button class="btn-cancel" onclick="closeModal()">لغو</button>
-            <button class="btn-confirm ${cls}" id="saveTx">ثبت</button>
-        </div>
-    `;
-    modal(html);
-    $('saveTx').onclick = function() {
-        const amt = Number($('amt').value.replace(/,/g,''));
-        if (!amt || amt <= 0) { toast('مبلغ معتبر وارد کنید', 'error'); return; }
-        const d = debtors.find(x => x.id == current);
-        if (!d) { toast('حساب پیدا نشد', 'error'); return; }
-        d.transactions.push({
-            id: Date.now(),
-            date: $('txDate').value.trim() || today(),
-            currency: 'AFN',
-            details: $('det').value.trim() || (isR ? 'رسید' : 'قرض'),
-            receipt: isR ? amt : 0,
-            debtVal: isR ? 0 : amt
+            let row = `<tr>
+                <td>${item.name}</td>
+                <td>${item.type}</td>
+                <td>${item.amount}</td>
+                <td>${item.desc || '-'}</td>
+                <td><button class="btn-del" onclick="deleteItem(${index})">X</button></td>
+            </tr>`;
+            list.innerHTML += row;
         });
-        save();
-        closeModal();
-        renderDetail();
-        render();
-        toast('✅ معامله ثبت شد', 'success');
-    };
-    setTimeout(() => { const el = $('amt'); if (el) el.focus(); }, 300);
-}
 
-function editInfo() {
-    const d = debtors.find(x => x.id == current);
-    if (!d) return;
-    const html = `
-        <h3>ویرایش معلومات</h3>
-        <label>نام</label><input id="n" value="${esc(d.name)}">
-        <label>تلفن</label><input id="p" value="${esc(d.phone||'')}" dir="ltr">
-        <div class="btn-group">
-            <button class="btn-cancel" onclick="closeModal()">لغو</button>
-            <button class="btn-confirm red" id="delBtn">🗑 حذف حساب</button>
-            <button class="btn-confirm" id="saveBtn">💾 ذخیره</button>
-        </div>
-    `;
-    modal(html);
-    $('saveBtn').onclick = function() {
-        const name = $('n').value.trim();
-        if (!name) { toast('نام را وارد کنید', 'error'); return; }
-        d.name = name;
-        d.phone = $('p').value.trim();
-        save();
-        closeModal();
-        renderDetail();
-        render();
-        toast('✅ ذخیره شد', 'success');
-    };
-    $('delBtn').onclick = function() {
-        if (!confirm('آیا مطمئن هستید؟')) return;
-        debtors = debtors.filter(x => x.id != current);
-        save();
-        closeModal();
-        closeDetail();
-        toast('✅ حذف شد', 'success');
-    };
-}
+        document.getElementById('totalRec').innerText = totalRec;
+        document.getElementById('totalGiven').innerText = totalGiven;
+        document.getElementById('balance').innerText = totalRec - totalGiven;
 
-// ============================================================
-// بخش ۴: هوش مصنوعی (بدون کلید - با Puter.js)
-// ============================================================
-async function askAI(prompt) {
-    if (typeof puter === 'undefined' || !puter.ai) {
-        throw new Error('❌ Puter در دسترس نیست. لطفاً VPN را روشن کنید و صفحه را Refresh کنید.');
+        localStorage.setItem('khatasultan_data', JSON.stringify(transactions));
     }
-    try {
-        const response = await puter.ai.chat('google/gemini-2.5-flash', prompt);
-        return response.message?.content || 'پاسخی دریافت نشد.';
-    } catch (err) {
-        throw new Error('❌ خطا در ارتباط با سرور: ' + err.message);
+
+    function addTransaction() {
+        const name = document.getElementById('name').value;
+        const type = document.getElementById('type').value;
+        const amount = document.getElementById('amount').value;
+        const desc = document.getElementById('desc').value;
+
+        if(!name || !amount) {
+            alert('لطفاً نام و مبلغ را وارد کنید');
+            return;
+        }
+
+        transactions.push({ name, type, amount, desc });
+        
+        document.getElementById('name').value = '';
+        document.getElementById('amount').value = '';
+        document.getElementById('desc').value = '';
+
+        updateUI();
     }
-}
 
-async function sendMessage() {
-    const input = $('chatInput');
-    const text = input.value.trim();
-    if (!text) return;
-
-    const container = $('chatMessages');
-    const userDiv = document.createElement('div');
-    userDiv.className = 'msg user';
-    userDiv.textContent = text;
-    container.appendChild(userDiv);
-    container.scrollTop = container.scrollHeight;
-    input.value = '';
-
-    const loadingDiv = document.createElement('div');
-    loadingDiv.className = 'msg ai';
-    loadingDiv.textContent = '🤖 در حال فکر کردن...';
-    container.appendChild(loadingDiv);
-    container.scrollTop = container.scrollHeight;
-
-    try {
-        const answer = await askAI(text);
-        container.removeChild(loadingDiv);
-        const aiDiv = document.createElement('div');
-        aiDiv.className = 'msg ai';
-        aiDiv.textContent = answer;
-        container.appendChild(aiDiv);
-        container.scrollTop = container.scrollHeight;
-    } catch (err) {
-        container.removeChild(loadingDiv);
-        const errDiv = document.createElement('div');
-        errDiv.className = 'msg ai';
-        errDiv.textContent = err.message || '❌ خطای ناشناخته';
-        container.appendChild(errDiv);
-        container.scrollTop = container.scrollHeight;
+    function deleteItem(index) {
+        transactions.splice(index, 1);
+        updateUI();
     }
-}
 
-function toggleChat() {
-    const box = $('chatbox');
-    box.classList.toggle('active');
-    if (box.classList.contains('active')) $('chatInput').focus();
-}
-function closeChat() { $('chatbox').classList.remove('active'); }
-
-// ============================================================
-// بخش ۵: شروع برنامه
-// ============================================================
-load();
-render();
+    updateUI();
 </script>
+
 </body>
 </html>
